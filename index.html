@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rainbow  Dark</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #000;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .rainbow {
+      height: 100vh;
+      width: 0;
+      top: 0;
+      position: absolute;
+      transform: rotate(10deg);
+      transform-origin: top right;
+    }
+
+    @keyframes slide {
+      from {
+        right: -25vw;
+      }
+      to {
+        right: 125vw;
+      }
+    }
+
+    /* Sombras de atenuación ajustadas para fondo negro */
+    .h {
+      box-shadow: 0 0 50vh 40vh black;
+      width: 100vw;
+      height: 0;
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      z-index: 2;
+    }
+
+    .v {
+      box-shadow: 0 0 35vw 25vw black;
+      width: 0;
+      height: 100vh;
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      z-index: 2;
+    }
+
+    .description-container {
+      position: absolute;
+      top: 32px;
+      left: 32px;
+      text-align: left;
+      letter-spacing: 3px;
+      z-index: 10;
+    }
+
+    .description-container .title {
+      font-size: 19px;
+      font-weight: 500;
+      color: white;
+      text-transform: uppercase;
+      font-family:monospace;
+    }
+
+    .description-container .subtitle {
+      margin-top: 6px;
+      font-size: 35px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.7);
+      text-transform: uppercase;
+      font-family:unset;
+    }
+
+    .author-container {
+      position: absolute;
+      width: 50%;
+      right: 21px;
+      bottom: 21px;
+      text-align: right;
+      z-index: 10;
+      text-decoration: none;
+    }
+
+    .author-container .picture {
+      position: absolute;
+      right: 0;
+      top: -42px;
+      margin-top: -12px;
+      width: 42px;
+      height: 42px;
+      background-size: 42px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-image: url(https://assets.codepen.io/595576/internal/avatars/users/default.png);
+      border-radius: 50%;
+    }
+
+    .author-container .title {
+      font-size: 16px;
+      letter-spacing: 2px;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Contenedor donde se generan automáticamente las 25 franjas -->
+  <div id="rainbow-wrapper"></div>
+
+  <div class="h"></div>
+  <div class="v"></div>
+
+  <div class="description-container">
+    <div class="subtitle">Angie Peralta </div>
+    <div class="title">Desarrolladora Java Full Stack</div>
+    
+  </div>
+
+  <!-- <a class="author-container" href="https://codepen.io/sylvaingarnot" target="_blank">
+    <div class="picture">./imagenes/Angiee</div>
+    <div class="title">@SylvainGarnot</div>
+  </a>-->
+
+  <script>
+    const wrapper = document.getElementById('rainbow-wrapper');
+    const total = 25;
+    const animationTime = 45; // Duración total en segundos
+
+    const colorPalettes = [
+      ['rgb(232, 121, 249)', 'rgb(96, 165, 250)', 'rgb(94, 234, 212)'],
+      ['rgb(232, 121, 249)', 'rgb(94, 234, 212)', 'rgb(96, 165, 250)'],
+      ['rgb(94, 234, 212)', 'rgb(232, 121, 249)', 'rgb(96, 165, 250)'],
+      ['rgb(94, 234, 212)', 'rgb(96, 165, 250)', 'rgb(232, 121, 249)'],
+      ['rgb(96, 165, 250)', 'rgb(94, 234, 212)', 'rgb(232, 121, 249)'],
+      ['rgb(96, 165, 250)', 'rgb(232, 121, 249)', 'rgb(94, 234, 212)']
+    ];
+
+    for (let i = 1; i <= total; i++) {
+      const div = document.createElement('div');
+      div.className = 'rainbow';
+
+      // Elección aleatoria de colores
+      const colors = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
+
+      // Sombras de resplandor adaptadas para fondo oscuro
+      div.style.boxShadow = `
+        -130px 0 80px 40px rgba(0, 0, 0, 0.8),
+        -50px 0 50px 25px ${colors[0]},
+        0 0 50px 25px ${colors[1]},
+        50px 0 50px 25px ${colors[2]},
+        130px 0 80px 40px rgba(0, 0, 0, 0.8)
+      `;
+
+      // Tiempos y retrasos de la animación
+      const duration = animationTime - (animationTime / total / 2) * i;
+      const delay = -1 * (i / total) * animationTime;
+
+      div.style.animation = `${duration}s linear infinite slide`;
+      div.style.animationDelay = `${delay}s`;
+
+      wrapper.appendChild(div);
+    }
+  </script>
+</body>
+</html>
