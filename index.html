@@ -3,20 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rainbow  Dark</title>
+  <title>Portafolio</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+
   <style>
     * {
       box-sizing: border-box;
+    }
+
+    html, body {
       margin: 0;
       padding: 0;
+      min-height: 100%;
     }
 
     body {
       background-color: #000;
-      overflow: hidden;
-      width: 100vw;
-      height: 100vh;
       font-family: system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;   /* solo oculta el scroll horizontal */
+      overflow-y: auto;     /* permite el scroll vertical */
+    }
+
+    /* ===== FONDO ANIMADO (fijo, no afecta al scroll) ===== */
+    .bg {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
     }
 
     .rainbow {
@@ -29,15 +47,10 @@
     }
 
     @keyframes slide {
-      from {
-        right: -25vw;
-      }
-      to {
-        right: 125vw;
-      }
+      from { right: -25vw; }
+      to   { right: 125vw; }
     }
 
-    /* Sombras de atenuación ajustadas para fondo negro */
     .h {
       box-shadow: 0 0 50vh 40vh black;
       width: 100vw;
@@ -58,86 +71,176 @@
       z-index: 2;
     }
 
-    .description-container {
-      position: absolute;
-      top: 32px;
-      left: 32px;
-      text-align: left;
-      letter-spacing: 3px;
+    /* ===== CONTENIDO (por encima del fondo) ===== */
+    .content {
+      position: relative;
       z-index: 10;
+      padding: 32px 16px 64px;
     }
 
-    .description-container .title {
-      font-size: 19px;
-      font-weight: 500;
-      color: white;
-      text-transform: uppercase;
-      font-family:monospace;
+    .description-container {
+      text-align: left;
+      letter-spacing: 3px;
+      margin-bottom: 48px;
     }
 
     .description-container .subtitle {
-      margin-top: 6px;
       font-size: 35px;
       font-weight: 500;
       color: rgba(255, 255, 255, 0.7);
       text-transform: uppercase;
-      font-family:unset;
     }
 
-    .author-container {
-      position: absolute;
-      width: 50%;
-      right: 21px;
-      bottom: 21px;
-      text-align: right;
-      z-index: 10;
-      text-decoration: none;
-    }
-
-    .author-container .picture {
-      position: absolute;
-      right: 0;
-      top: -42px;
-      margin-top: -12px;
-      width: 42px;
-      height: 42px;
-      background-size: 42px;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-image: url(https://assets.codepen.io/595576/internal/avatars/users/default.png);
-      border-radius: 50%;
-    }
-
-    .author-container .title {
-      font-size: 16px;
-      letter-spacing: 2px;
+    .description-container .title {
+      margin-top: 6px;
+      font-size: 19px;
+      font-weight: 500;
       color: white;
+      text-transform: uppercase;
+      font-family: monospace;
+    }
+
+    /* ===== CARDS (estilos que faltaban) ===== */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 20px;
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(96, 165, 250, 0.25);
+    }
+
+    .avatar-wrapper {
+      width: 120px;
+      height: 120px;
+    }
+
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .social-icon {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.4rem;
+      transition: color .2s ease, transform .2s ease;
+    }
+
+    .social-icon:hover {
+      color: rgb(94, 234, 212);
+      transform: scale(1.2);
     }
   </style>
 </head>
 <body>
 
-  <!-- Contenedor donde se generan automáticamente las 25 franjas -->
-  <div id="rainbow-wrapper"></div>
-
-  <div class="h"></div>
-  <div class="v"></div>
-
-  <div class="description-container">
-    <div class="subtitle">Angie Peralta </div>
-    <div class="title">Desarrolladora Java Full Stack</div>
-    
+  <!-- Fondo animado -->
+  <div class="bg">
+    <div id="rainbow-wrapper"></div>
+    <div class="h"></div>
+    <div class="v"></div>
   </div>
 
-  <!-- <a class="author-container" href="https://codepen.io/sylvaingarnot" target="_blank">
-    <div class="picture">./imagenes/Angiee</div>
-    <div class="title">@SylvainGarnot</div>
-  </a>-->
+  <!-- Todo el contenido va aquí, encima del fondo -->
+  <main class="content">
+    <div class="container">
+
+     <div class="description-container">
+
+  <!-- Texto a la izquierda -->
+  <div class="texto-encabezado">
+    <div class="subtitle">Angie Peralta</div>
+    <div class="title">Desarrolladora Java Full Stack</div>
+    <p class="card-text text-white-50 small mb-4">
+      Soy Desarrolladora Jr apasionada por la programación y diseño.
+    </p>
+  </div>
+
+  <!-- Foto a la derecha -->
+  <div class="caja-perfil forma-ola">
+    <img src="./imagenes/angie.jpeg" alt="Foto de Angie">
+  </div>
+
+</div>
+
+<div class="section-title">Habilidades</div>
+
+      <!-- Cajas de tecnologías (fuera del .row) -->
+<div class="mini-row">
+  <div class="mini-box"><img class="mini-circle" src="./imagenes/html.jpg" alt="R"></div>
+  <div class="mini-box"><img class="mini-circle" src="./imagenes/css.jpg" alt="CSS"></div>
+  <div class="mini-box"><img class="mini-circle" src="./imagenes/js.png" alt="JavaScript"></div>
+  <div class="mini-box"><img class="mini-circle" src="./imagenes/java.jpg" alt="Java"></div>
+  <div class="mini-box"><img class="mini-circle" src="./imagenes/mysql.webp" alt="MySQL"></div>
+</div>
+
+<!-- Título (fuera del .row) -->
+<div class="section-title">proyectos</div>
+
+<!-- Cards -->
+<div class="row justify-content-center g-4">
+
+  <div class="col-6 col-md-6 col-lg-4">
+    <div class="card glass-card h-100 text-center p-4 text-white">
+      
+      <h4 class="card-title fw-bold mb-1">LUDUS</h4>
+          <p class="text-white-50 small mb-3">Red social</p>
+          <p class="card-text text-white-50 small mb-4">
+            Red social de reseñas de videojuegos.
+          </p>
+    </div>
+  </div>
+
+  <div class="col-6 col-md-6 col-lg-4">
+    <div class="card glass-card h-100 text-center p-4 text-white">
+      <h4 class="card-title fw-bold mb-1">Hackaton 1</h4>
+          <p class="text-white-50 small mb-3">Landing page</p>
+          <p class="card-text text-white-50 small mb-4">
+            Pagina web de articulos deportivos.
+          </p>
+    </div>
+  </div>
+  <div class="col-6 col-md-6 col-lg-4">
+    <div class="card glass-card h-100 text-center p-4 text-white">
+      <h4 class="card-title fw-bold mb-1">Hackaton 2</h4>
+          <p class="text-white-50 small mb-3">Agenda</p>
+          <p class="card-text text-white-50 small mb-4">
+            Agenda telefonica en Java.
+          </p>
+    </div>
+  </div>
+
+  <!-- Repite el mismo bloque col-12 col-md-6 col-lg-4 por cada card -->
+
+
+</div> <!-- cierre del .row -->
+
+<div class="section-title">Contactos</div>
+
+<div class="contact-row">
+  <a class="mini-box contact-box" href="https://github.com/TU-USUARIO" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+    <i class="bi bi-github"></i>
+  </a>
+
+  <a class="mini-box contact-box" href="https://www.linkedin.com/in/TU-PERFIL" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+    <i class="bi bi-linkedin"></i>
+  </a>
+</div>
+
+    </div> <!-- cierre del .container -->
+  </main>
 
   <script>
     const wrapper = document.getElementById('rainbow-wrapper');
     const total = 25;
-    const animationTime = 45; // Duración total en segundos
+    const animationTime = 45; // duración total en segundos
 
     const colorPalettes = [
       ['rgb(232, 121, 249)', 'rgb(96, 165, 250)', 'rgb(94, 234, 212)'],
@@ -152,10 +255,8 @@
       const div = document.createElement('div');
       div.className = 'rainbow';
 
-      // Elección aleatoria de colores
       const colors = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
 
-      // Sombras de resplandor adaptadas para fondo oscuro
       div.style.boxShadow = `
         -130px 0 80px 40px rgba(0, 0, 0, 0.8),
         -50px 0 50px 25px ${colors[0]},
@@ -164,7 +265,6 @@
         130px 0 80px 40px rgba(0, 0, 0, 0.8)
       `;
 
-      // Tiempos y retrasos de la animación
       const duration = animationTime - (animationTime / total / 2) * i;
       const delay = -1 * (i / total) * animationTime;
 
@@ -174,5 +274,6 @@
       wrapper.appendChild(div);
     }
   </script>
+
 </body>
 </html>

@@ -1,9 +1,14 @@
-/*body{
- font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
- color: aliceblue;
-  background-color:black;
-    padding: 40px 20px;
-}*/
+/*FONDO*/
+
+/* --- Configuración Global --- */
+html {
+  margin: 0;
+  padding: 0;
+  background-color: #000000;
+  min-height: 100vh;
+  overflow-x: hidden; /* Evita el scroll horizontal provocado por las franjas */
+}
+
 
 *{
 box-sizing: border-box;
@@ -12,20 +17,25 @@ padding: 0;
 }
 
 body {
-background-color: #000;
-overflow: hidden;
-width: 100vw;
-height: 100vh;
-font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #000000;
+  min-height: 100vh;
+  width: 100%;
+  overflow-y: auto; /* Permite el scroll vertical libremente */
+  font-family: system-ui, -apple-system, sans-serif;
 }
 
+/* --- Fondo Animado (Fijo al hacer scroll) --- */
 .rainbow {
-height: 100vh;
-width: 0;
-top: 0;
-position: absolute;
-transform: rotate(10deg);
-transform-origin: top right;
+  height: 100vh;
+  width: 0;
+  top: 0;
+  position: fixed;
+  transform: rotate(10deg);
+  transform-origin: top right;
+  pointer-events: none; /* Permite hacer clic y scroll a través del fondo */
+  z-index: 1;
 }
 
 @keyframes slide {
@@ -37,53 +47,59 @@ right: 125vw;
 }
 }
 
-/* Sombras de atenuación ajustadas para fondo negro */
+/* Sombras de atenuación para el fondo negro */
 .h {
-box-shadow: 0 0 50vh 40vh black;
-width: 100vw;
-height: 0;
-bottom: 0;
-left: 0;
-position: absolute;
-z-index: 2;
+  box-shadow: 0 0 50vh 40vh black;
+  width: 100vw;
+  height: 0;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  pointer-events: none;
+  z-index: 2;
 }
 
 .v {
-box-shadow: 0 0 35vw 25vw black;
-width: 0;
-height: 100vh;
-bottom: 0;
-left: 0;
-position: absolute;
-z-index: 2;
+  box-shadow: 0 0 35vw 25vw black;
+  width: 0;
+  height: 100vh;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  pointer-events: none;
+  z-index: 2;
 }
 
+/* --- Textos de Descripción --- */
 .description-container {
-position: absolute;
-top: 32px;
-left: 32px;
-text-align: left;
-letter-spacing: 3px;
-z-index: 10;
-}
-
-.description-container .title {
-
-/*font-family:'Times New Roman', Times, serif;*/
-font-size: 19px;
-font-weight: 500;
-color: white;
-text-transform: uppercase;
-
+  position: relative;      /* antes: absolute */
+  top: auto;
+  left: auto;
+  padding: 24px 16px 0;
+  letter-spacing: clamp(1px, 0.5vw, 3px);
 }
 
 .description-container .subtitle {
-/*font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;*/
-margin-top: 6px;
-font-size: 50px;
-font-weight: 500;
-color: rgba(255, 255, 255, 0.7);
-text-transform: uppercase;
+  font-size: clamp(1.25rem, 5vw, 1.75rem);
+}
+
+.description-container .title,
+.section-title {
+  font-size: 19px;
+  font-weight: 500;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  /* font-family: monospace;  <- descomenta si lo usas */
+}
+
+.section-title {
+  text-align:left;
+  margin: 56px 0 24px;
+}
+
+.page-content {
+  padding: 24px 16px 64px;  /* ya no necesitas 140px arriba */
 }
 
 .author-container {
@@ -114,4 +130,172 @@ border-radius: 50%;
 font-size: 16px;
 letter-spacing: 2px;
 color: white;
+}
+
+      /* ESTILO CARDS */
+
+/* Configuración básica de la tarjeta transparente (Glassmorphism) */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05) !important; /* Transparencia base */
+  backdrop-filter: blur(12px); /* Efecto de desenfoque de fondo */
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15) !important; /* Borde sutil blanco */
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto al pasar el cursor sobre la tarjeta */
+.glass-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+}
+
+/* Estilo del avatar */
+.avatar-wrapper {
+  width: 110px;
+  height: 110px;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: border-color 0.3s ease;
+}
+
+.glass-card:hover .avatar-img {
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Estilo de los iconos sociales (blancos / neutros) */
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: background 0.3s ease, transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icon:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  transform: translateY(-3px);
+}
+
+/* ----- ENCABEZADO ----- */
+.description-container {
+  position: static;               /* antes era absolute: por eso el flex no funcionaba */
+  display: flex;
+  align-items: center;            /* texto y foto a la misma altura */
+  justify-content: space-between; /* texto a la izquierda, foto a la derecha */
+  flex-wrap: wrap;                /* en celular la foto baja si no cabe */
+  gap: 24px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+/* ----- FOTO ----- */
+.caja-perfil {
+  width: clamp(110px, 28vw, 160px);
+  aspect-ratio: 1 / 1;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.caja-perfil img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.forma-ola {
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+}
+
+  /* Fila de 5 cajas: siempre 5 columnas iguales, incluso en celular */
+  .mini-row {
+    
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: clamp(8px, 2vw, 24px);
+    max-width: 450px;
+    margin: 48px auto 0 0;
+  }
+ 
+  /* Misma apariencia (glassmorphism) que tus cards */
+  .mini-box {
+    aspect-ratio: 1 / 1;              /* caja cuadrada */
+    display: flex;
+    align-items: center;              /* centra el círculo en vertical */
+    justify-content: center;          /* y en horizontal */
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+ 
+  @media (hover: hover) {
+    .mini-box:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255, 255, 255, 0.35);
+      box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+    }
+  }
+ 
+  /* El círculo con la imagen: ocupa el 60% de la caja */
+  .mini-circle {
+    width: 60%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    object-fit: cover;                /* la imagen llena el círculo sin deformarse */
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    transition: border-color 0.3s ease;
+  }
+ 
+  .mini-box:hover .mini-circle {
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+  
+.mini-row {
+  
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  
+}
+
+.contact-row {
+  display: flex;
+  justify-content: center;
+  gap: clamp(12px, 3vw, 28px);
+  margin-bottom: 48px;
+}
+
+.contact-box {
+  width: clamp(90px, 22vw, 50px);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: clamp(2rem, 7vw, 2.8rem);
+  transition: transform 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.contact-box:hover {
+  color: rgb(94, 234, 212);
 }
