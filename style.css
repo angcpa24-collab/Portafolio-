@@ -70,14 +70,6 @@ right: 125vw;
   z-index: 2;
 }
 
-/* --- Textos de Descripción --- */
-.description-container {
-  position: relative;      /* antes: absolute */
-  top: auto;
-  left: auto;
-  padding: 24px 16px 0;
-  letter-spacing: clamp(1px, 0.5vw, 3px);
-}
 
 .description-container .subtitle {
   font-size: clamp(1.25rem, 5vw, 1.75rem);
@@ -99,7 +91,9 @@ right: 125vw;
 }
 
 .page-content {
-  padding: 24px 16px 64px;  /* ya no necesitas 140px arriba */
+  position: relative;
+  z-index: 10;
+  padding: 24px 16px 64px;
 }
 
 .author-container {
@@ -193,26 +187,41 @@ color: white;
 
 /* ----- ENCABEZADO ----- */
 .description-container {
-  position: static;               /* antes era absolute: por eso el flex no funcionaba */
+  position: static;
   display: flex;
-  align-items: center;            /* texto y foto a la misma altura */
-  justify-content: space-between; /* texto a la izquierda, foto a la derecha */
-  flex-wrap: wrap;                /* en celular la foto baja si no cabe */
+  align-items: flex-start;        /* texto y foto arrancan arriba */
+  justify-content: space-between;
+  flex-wrap: wrap;
   gap: 24px;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px 16px;
+  padding: 0;
+  margin: 0;
+  max-width: none;
+}
+
+.texto-encabezado {
+  flex: 1 1 320px;
+  letter-spacing: 3px;
+  margin-top: 28px;                /* texto cerca del borde superior */
+}
+
+.texto-encabezado p {
+  margin-bottom: 0 !important;    /* quita el espacio extra antes de Habilidades */
+}
+
+.mini-row {
+  margin: 0;                      /* pegada a la izquierda, como los títulos */
 }
 
 /* ----- FOTO ----- */
 .caja-perfil {
-  width: clamp(110px, 28vw, 160px);
+  width: clamp(210px, 28vw, 360px);
   aspect-ratio: 1 / 1;
   position: relative;
   overflow: hidden;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 30px;                       /* separa la foto del borde superior */
+  margin-right: clamp(0px, 3vw, 40px);    /* separa la foto del borde derecho */
 }
 
 .caja-perfil img {
@@ -227,6 +236,31 @@ color: white;
   border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
 }
 
+/* ----- TÍTULOS DE SECCIÓN ----- */
+.section-title {
+  text-align: left;
+  margin: 40px 0 20px;
+}
+
+/* Solo el primer título (Habilidades), pegado al encabezado */
+.description-container + .section-title {
+  margin-top: 16px;
+}
+
+/*---RESPONSIVO---*/
+@media (min-width: 992px) {
+  .caja-perfil {
+    margin-bottom: -120px;   /* sube el contenido que sigue 120px */
+  }
+}
+
+@media (max-width: 576px) {
+  .description-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
   /* Fila de 5 cajas: siempre 5 columnas iguales, incluso en celular */
   .mini-row {
     
@@ -234,7 +268,7 @@ color: white;
     grid-template-columns: repeat(5, 1fr);
     gap: clamp(8px, 2vw, 24px);
     max-width: 450px;
-    margin: 48px auto 0 0;
+    margin: 28px auto 0 0;
   }
  
   /* Misma apariencia (glassmorphism) que tus cards */
